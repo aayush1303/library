@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ImageKit Debug Test</title>
+</head>
+<body>
+    <h1>ImageKit Debug Test</h1>
+    <button onclick="testImageKitAuth()">Test ImageKit Authentication</button>
+    <pre id="result"></pre>
+
+    <script>
+        async function testImageKitAuth() {
+            const resultElement = document.getElementById('result');
+            
+            try {
+                resultElement.textContent = 'Testing ImageKit authentication...';
+                
+                const response = await fetch('http://localhost:3000/api/imagekit');
+                
+                resultElement.textContent = `Status: ${response.status}\n`;
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    resultElement.textContent += `Success!\nData: ${JSON.stringify(data, null, 2)}`;
+                } else {
+                    const errorText = await response.text();
+                    resultElement.textContent += `Error: ${errorText}`;
+                }
+            } catch (error) {
+                resultElement.textContent = `Network Error: ${error.message}`;
+            }
+        }
+    </script>
+</body>
+</html>
